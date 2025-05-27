@@ -1,5 +1,7 @@
+import Body from "./components/Body";
+
 const App = () => {
-  return <div className="font-bold text-3xl text-red-500">Namaste React</div>;
+  return <Body />;
 };
 
 export default App;
