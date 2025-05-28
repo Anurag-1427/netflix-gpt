@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { BG_URL } from "../utils/constants";
+import { BG_URL, USER_AVATAR } from "../utils/constants";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
 import {
@@ -10,7 +10,6 @@ import {
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -21,7 +20,6 @@ const Login = () => {
   const password = useRef(null);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleButtonClick = () => {
     const message = checkValidData(email.current.value, password.current.value);
@@ -39,8 +37,7 @@ const Login = () => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: fullName.current.value,
-            photoURL:
-              "https://avatars.githubusercontent.com/u/90560418?v=4&size=64",
+            photoURL: USER_AVATAR,
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
@@ -52,7 +49,6 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              navigate("/browse");
             })
             .catch((error) => {
               setErrorMessage(error.message);
@@ -74,7 +70,6 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log(`signInWithEmailAndPassword user==>`, user);
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
